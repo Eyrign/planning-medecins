@@ -425,7 +425,6 @@ if data["dates_interdites_globales"]:
         st.session_state.setdefault(flag, False)
         col1, col2 = st.columns([4,1])
         with col1:
-            st.write(f"🔒 {format_date_fr(d)}")
         with col2:
             if not st.session_state[flag]:
                 st.button("❌", key=f"del_glob_{idx}", on_click=confirm_action, args=(flag,))
@@ -464,7 +463,6 @@ if data['medecins']:
         st.session_state.setdefault(flag, False)
         col1, col2 = st.columns([4,1])
         with col1:
-            st.write(f"- {med['nom']}")
         with col2:
             if not st.session_state[flag]:
                 st.button("❌", key=f"del_med_{i}", on_click=confirm_action, args=(flag,))
@@ -537,7 +535,6 @@ if data['medecins']:
             st.session_state.setdefault(flag, False)
             col1, col2 = st.columns([4,1])
             with col1:
-                st.write(desc)
             with col2:
                 if not st.session_state[flag]:
                     st.button("❌", key=f"del_vac_{j}", on_click=confirm_action, args=(flag,))
@@ -574,7 +571,6 @@ for m in data['medecins']:
                     items.append(f"{format_date_fr(v[0])} → {format_date_fr(v[1])}")
                 else:
                     items.append(f"{format_date_fr(v[0])} → {format_date_fr(v[1])} (Départ: {disp_dep}, Retour: {disp_ret})")
-        st.write(f"**{m['nom']}** : {', '.join(items)}")
 
 # Section 4: Planning simplifié
 st.markdown("---")
