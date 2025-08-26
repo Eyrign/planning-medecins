@@ -4,7 +4,7 @@ from datetime import date, datetime, timedelta
 import hashlib
 import random
 import pandas as pd
-import xlsxwriter
+import io
 
 st.set_page_config(page_title="Planning Médical - Planning des Médecins", layout="centered")
 st.title("🩺 Planning des Médecins")
@@ -668,9 +668,14 @@ csv = df_planning.to_csv(index=False).encode('utf-8')
 st.download_button("📥 Télécharger en CSV", data=csv, file_name="planning.csv", mime='text/csv')
 
 # Proposer le téléchargement Excel
-excel_buffer = pd.ExcelWriter("planning_temp.xlsx", engine='xlsxwriter')
-df_planning.to_excel(excel_buffer, index=False, sheet_name="Planning")
-excel_buffer.close()
-with open("planning_temp.xlsx", "rb") as f:
-    st.download_button("📥 Télécharger en Excel", data=f, file_name="planning.xlsx", mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+excel_buf = io.BytesIO()
+with pd.ExcelWriter(excel_buf, engine="xlsxwriter") as writer:
+    df_planning.to_excel(writer, index=False, sheet_name="Planning")
+excel_buf.seek(0)
 
+st.download_button(
+    "📥 Télécharger en Excel",
+    data=excel_buf,
+    file_name="planning.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+)
