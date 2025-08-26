@@ -425,6 +425,7 @@ if data["dates_interdites_globales"]:
         st.session_state.setdefault(flag, False)
         col1, col2 = st.columns([4,1])
         with col1:
+            st.empty()
         with col2:
             if not st.session_state[flag]:
                 st.button("❌", key=f"del_glob_{idx}", on_click=confirm_action, args=(flag,))
@@ -463,6 +464,7 @@ if data['medecins']:
         st.session_state.setdefault(flag, False)
         col1, col2 = st.columns([4,1])
         with col1:
+            st.empty()
         with col2:
             if not st.session_state[flag]:
                 st.button("❌", key=f"del_med_{i}", on_click=confirm_action, args=(flag,))
@@ -535,6 +537,7 @@ if data['medecins']:
             st.session_state.setdefault(flag, False)
             col1, col2 = st.columns([4,1])
             with col1:
+                st.empty()
             with col2:
                 if not st.session_state[flag]:
                     st.button("❌", key=f"del_vac_{j}", on_click=confirm_action, args=(flag,))
