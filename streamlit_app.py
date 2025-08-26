@@ -574,7 +574,6 @@ for m in data['medecins']:
                     items.append(f"{format_date_fr(v[0])} → {format_date_fr(v[1])}")
                 else:
                     items.append(f"{format_date_fr(v[0])} → {format_date_fr(v[1])} (Départ: {disp_dep}, Retour: {disp_ret})")
-        st.write(f"**{m['nom']}** : {', '.join(items)}")
 
 # Section 4: Planning simplifié
 st.markdown("---")
