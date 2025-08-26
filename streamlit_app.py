@@ -580,7 +580,9 @@ for m in data['medecins']:
 st.markdown("---")
 st.subheader("🗓️ Planning annuel simplifié (12 prochains mois)")
 
-def render_yearly_calendar(start_date):
+def render_calendar(start_date, months=12):
+    st.markdown(f"### 🗓️ Planning sur {months} mois")
+
     st.markdown("""
     <style>
     table, th, td {
@@ -589,31 +591,14 @@ def render_yearly_calendar(start_date):
         font-size: 12px;
         vertical-align: top;
     }
-    .cell-wrapper {
-        position: relative;
-        min-height: 250px;
-        height: 250px;
-        width: 150px;
-        min-width: 150px;
-        padding-bottom: 4px;
-    }
-    .day-number {
-        position: relative;
-        top: 2px;
-        left: 4px;
-        font-weight: bold;
-        font-size: 10px;
-    }
-    .cell-content {
-        margin-top: 14px;
-        font-size: 15px;
-    }
+    .cell-wrapper { position: relative; min-height: 250px; height: 250px; width: 150px; min-width: 150px; padding-bottom: 4px; }
+    .day-number { position: relative; top: 2px; left: 4px; font-weight: bold; font-size: 10px; }
+    .cell-content { margin-top: 14px; font-size: 15px; }
     </style>
     """, unsafe_allow_html=True)
 
-
     html = ""
-    for m in range(12):
+    for m in range(months):
         current_month = (start_date.month + m - 1) % 12 + 1
         current_year = start_date.year + ((start_date.month + m - 1) // 12)
         first_day = date(current_year, current_month, 1)
@@ -645,12 +630,24 @@ def render_yearly_calendar(start_date):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4)
 
-if st.button("📅 Générer planning intelligent"):
-    assign_roles_smart(date.today())
-    render_yearly_calendar(date.today())
-
 st.markdown("---")
-st.subheader("📤 Exporter le planning")
+st.markdown("### ⚙️ Générer un planning")
+
+c1, c2, c3 = st.columns(3)
+today = date.today()
+
+if c1.button("📅 4 mois"):
+    assign_roles_smart(today, weeks=18)   # ≈ 4 mois
+    render_calendar(today, months=4)
+
+if c2.button("📅 6 mois"):
+    assign_roles_smart(today, weeks=26)   # ≈ 6 mois
+    render_calendar(today, months=6)
+
+if c3.button("📅 12 mois"):
+    assign_roles_smart(today, weeks=52)   # ≈ 12 mois
+    render_calendar(today, months=12)
+
 
 # Transformer le planning en DataFrame
 planning_liste = []
